@@ -11,32 +11,34 @@ struct Aresta {
     int destino;
     float peso;
 };
-
+    
 class Grafo {
-    private:
+    protected:
         int numVertices;
         int numArestas;
         bool direcionado;
         bool ponderado;
 
     public:
-        Grafo(int vertices, int arestas, bool dir, bool pond);
-        ~Grafo();
+        Grafo() : numVertices(0), numArestas(0), direcionado(false), ponderado(false) {}
+        virtual ~Grafo() {}
+
+        virtual bool criarGrafo(string path = "") = 0;
 
         // Vértices
-        bool inserirVertice(string label);
-        bool removerVertice(int indice);
-        string labelVertice(int indice);
-        vector<int> retornarVizinhos(int vertice);
+        virtual bool inserirVertice(string label) = 0;
+        virtual bool removerVertice(int indice) = 0;
+        virtual string labelVertice(int indice) = 0;
+        virtual vector<int> retornarVizinhos(int vertice) = 0;
 
         // Arestas
-        bool inserirAresta(int origem, int destino, float peso = 1);
-        bool removerAresta(int origem, int destino);
-        bool existeAresta(int origem, int destino);
-        float pesoAresta(int origem, int destino);
+        virtual bool inserirAresta(int origem, int destino, float peso = 1) = 0;
+        virtual bool removerAresta(int origem, int destino) = 0;
+        virtual bool existeAresta(int origem, int destino) = 0;
+        virtual float pesoAresta(int origem, int destino) = 0;
 
         // Impressão
-        void imprimeGrafo();
+        virtual void imprimeGrafo() = 0;
 };
 
 #endif
