@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include "graphReader.h"
 
 using namespace std;
 
