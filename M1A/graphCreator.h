@@ -26,7 +26,7 @@ class Grafo {
         virtual bool criarGrafo(string path = "") = 0;
 
         // Vértices
-        virtual bool inserirVertice(string label) = 0;
+        virtual bool inserirVertice(string label = "") = 0;
         virtual bool removerVertice(int indice) = 0;
         // virtual string labelVertice(int indice) = 0;
         // virtual vector<Vertice> retornarVizinhos(int vertice) = 0;

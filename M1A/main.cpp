@@ -9,7 +9,10 @@ int main()
     bool wasCreated = grafoLista.criarGrafo("tests/naoPonderado.txt");
     cout << wasCreated << endl;
     grafoLista.imprimeGrafo();
-    grafoLista.imprimeInfos();
+    cout << endl;
+    grafoLista.inserirVertice();
+    grafoLista.inserirVertice("Ian");
+    grafoLista.imprimeGrafo();
     
     return 0;
 }

@@ -58,7 +58,7 @@ int GrafoList::indexMaximo(){
     return maxVerticeIndex;
 }
 
-bool GrafoList::inserirVertice(string label = ""){
+bool GrafoList::inserirVertice(string label){
     try{
         int newIndex = indexMaximo() + 1;
         grafo[newIndex];
@@ -71,7 +71,12 @@ bool GrafoList::inserirVertice(string label = ""){
 }
 
 bool GrafoList::removerVertice(int indice){
-    return true;
+    try{
+        // implement
+        return true;
+    }catch(const runtime_error& e){
+        return false;
+    }
 }
 
 void GrafoList::imprimeGrafo() {
@@ -79,9 +84,9 @@ void GrafoList::imprimeGrafo() {
         int origem = pair.first;
         vector<Aresta> destinos = pair.second;
         
-        cout << origem;
+        cout << format("Origem: {} | Label: {}", origem, labels[origem]);
         for(Aresta a: destinos){
-            string formatted_aresta = format("(Vértice: [{}, {}] | Peso: {})", a.destino, a.destino, a.peso);
+            string formatted_aresta = format("(Destino: {} | Peso: {})", a.destino, a.peso);
             cout << " -> " << formatted_aresta;
         }
         cout << endl;

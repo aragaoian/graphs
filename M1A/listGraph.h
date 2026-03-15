@@ -14,7 +14,7 @@ private:
 public:
 	bool criarGrafo(std::string path = "") override;
 	void imprimeGrafo() override;
-    bool inserirVertice(string label) override;
+    bool inserirVertice(string label = "") override;
     bool removerVertice(int indice) override;
     virtual int indexMaximo();
 };
