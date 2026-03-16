@@ -30,16 +30,16 @@ bool GrafoList::criarGrafo(string path) {
         aresta.destino = vertice_destino;
         aresta.peso = 0.0f;
 
-        if(!direcionado){
-            Aresta rev_aresta;
-            rev_aresta.destino = vertice_origem;
-            rev_aresta.peso = 0.0f;
-            grafo[vertice_destino].push_back(rev_aresta);
-        }
-
         if(ponderado){
             float peso = stof(info[i][2]);
             aresta.peso = peso;
+        }
+
+        if(!direcionado){
+            Aresta rev_aresta;
+            rev_aresta.destino = vertice_origem;
+            rev_aresta.peso = aresta.peso;
+            grafo[vertice_destino].push_back(rev_aresta);
         }
 
         grafo[vertice_origem].push_back(aresta);
