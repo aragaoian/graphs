@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <format>
+#include <algorithm>
 #include "listGraph.h"
 #include "graphReader.h"
 
@@ -71,12 +72,81 @@ bool GrafoList::inserirVertice(string label){
 }
 
 bool GrafoList::removerVertice(int indice){
+    /*
+        * Remove o vertice pelo indice,
+        * bem como remove todas as conexões
+        * e também a referência no vetor de labels
+        * (caso tenha).
+    */
     try{
-        // implement
+        for(auto& pair: grafo){
+            int origem = pair.first;
+            if(origem == indice) continue;
+
+            vector<Aresta>& destinos = pair.second;
+            vector<int> indexesToRemove;
+            for(int i = 0; i < destinos.size(); i++){
+                if(destinos[i].destino != indice) continue;
+                indexesToRemove.push_back(i);
+            }
+
+            if(indexesToRemove.size() > 0){
+                for(int indexToRemove: indexesToRemove){
+                    grafo[origem].erase(destinos.begin() + indexToRemove);
+                    numArestas--;
+                }
+            }
+        }
+        
+        grafo.erase(indice);
+        numVertices--;
+        labels.erase(indice);
+
         return true;
     }catch(const runtime_error& e){
         return false;
     }
+}
+
+vector<int> GrafoList::retornarVizinhos(int indice){
+    /*
+        * Para digrafos a função retorna
+        * apenas vértices N^+(v) ou seja v -> u.
+        * Para grafos não direcionados a função
+        * retorna ambos v <-> u.
+    */
+    vector<int> neighboors;
+    if(grafo.find(indice) != grafo.end()){
+        bool foundOrigem = false;
+        for(const auto& pair: grafo){
+            int origem = pair.first;
+            if(origem != indice && direcionado){
+                continue;   
+            }else{
+                foundOrigem = true;
+            }
+
+            vector<Aresta> arestas = pair.second;
+            for(Aresta a: arestas){
+                // Ainda falta testar essa parte do grafo n direcionado
+                // Pedir pro amigo criar uns .txt grafos n dir (ponderado e não ponderado)
+                if(indice != origem && !direcionado){
+                    auto it = find_if(neighboors.begin(), neighboors.end(), [a](int i){return i == a.destino;});
+                    if(it == neighboors.end()) continue;
+                    neighboors.push_back(a.destino);
+                }
+                neighboors.push_back(a.destino);
+            }
+
+            if(foundOrigem) break;
+        }
+    }
+    return neighboors;
+}
+
+string GrafoList::labelVertice(int indice){
+    auto it = labels.find(indice);
+    return it == labels.end() ? "Vértice não possui label." : it->second;
 }
 
 void GrafoList::imprimeGrafo() {

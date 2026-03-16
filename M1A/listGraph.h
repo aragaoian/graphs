@@ -10,13 +10,17 @@ class GrafoList : public Grafo {
 private:
 	std::map<int, vector<Aresta>> grafo;
 	std::map<int, string> labels;
-
+	virtual int indexMaximo();
+	
 public:
 	bool criarGrafo(std::string path = "") override;
-	void imprimeGrafo() override;
+
     bool inserirVertice(string label = "") override;
     bool removerVertice(int indice) override;
-    virtual int indexMaximo();
+	string labelVertice(int indice) override;
+	vector<int> retornarVizinhos(int vertice) override;
+
+	void imprimeGrafo() override;
 };
 
 #endif
