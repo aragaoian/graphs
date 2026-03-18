@@ -13,14 +13,20 @@ private:
 	virtual int indexMaximo();
 	
 public:
-	bool criarGrafo(std::string path = "") override;
+	bool criarGrafo(std::string path) override;
 
-    bool inserirVertice(string label = "") override;
+    bool inserirVertice(string label) override;
     bool removerVertice(int indice) override;
 	string labelVertice(int indice) override;
 	vector<int> retornarVizinhos(int vertice) override;
 
+	bool inserirAresta(int origem, int destino, float peso) override;
+	bool removerAresta(int origem, int destino) override;
+	bool existeAresta(int origem, int destino) override;
+	float pesoAresta(int origem, int destino) override;
+
 	void imprimeGrafo() override;
+	// void exportarGrafo() override;
 };
 
 #endif

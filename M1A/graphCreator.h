@@ -32,13 +32,14 @@ class Grafo {
         virtual vector<int> retornarVizinhos(int vertice) = 0;
 
         // Arestas
-        // virtual bool inserirAresta(int origem, int destino, float peso = 1) = 0;
-        // virtual bool removerAresta(int origem, int destino) = 0;
-        // virtual bool existeAresta(int origem, int destino) = 0;
-        // virtual float pesoAresta(int origem, int destino) = 0;
+        virtual bool inserirAresta(int origem, int destino, float peso = 1) = 0;
+        virtual bool removerAresta(int origem, int destino) = 0;
+        virtual bool existeAresta(int origem, int destino) = 0;
+        virtual float pesoAresta(int origem, int destino) = 0;
 
         // Impressão
         virtual void imprimeGrafo() = 0;
+        // virtual void exportarGrafo() = 0;
         void imprimeInfos(); 
         
     };   
