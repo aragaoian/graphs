@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <format>
 #include <algorithm>
 #include "listGraph.h"
 #include "graphReader.h"
@@ -203,10 +202,11 @@ void GrafoList::imprimeGrafo() {
         int origem = pair.first;
         vector<Aresta> destinos = pair.second;
         
-        cout << format("Origem: {} | Label: {}", origem, labels[origem]);
+        cout << "Origem: " << origem << " | Label: " << labels[origem];
         for(Aresta a: destinos){
-            string formatted_aresta = format("(Destino: {} | Peso: {})", a.destino, a.peso);
-            cout << " -> " << formatted_aresta;
+            cout << " -> "
+                 << "(Destino: " << a.destino
+                 << " | Peso: " << a.peso << ")";
         }
         cout << endl;
     }

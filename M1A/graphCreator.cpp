@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <format>
 #include <algorithm>
 #include <limits>
 #include <map>
@@ -9,10 +8,10 @@
 using namespace std;
 
 void Grafo::imprimeInfos(){
-    cout << format("Total de vertices: {}", numVertices) << endl;
-    cout << format("Total de arestas: {}", numArestas) << endl;
-    cout << format("Direcionado: {}", direcionado ? "sim" : "nao") << endl;
-    cout << format("Ponderado: {}", ponderado ? "sim" : "nao") << endl;
+    cout << "Total de vertices: " << numVertices << endl;
+    cout << "Total de arestas: " << numArestas << endl;
+    cout << "Direcionado: " << (direcionado ? "sim" : "nao") << endl;
+    cout << "Ponderado: " << (ponderado ? "sim" : "nao") << endl;
 }
 
 vector<int> Grafo::buscaLargura(int origem){

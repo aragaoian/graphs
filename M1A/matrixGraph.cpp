@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <format>
 #include "matrixGraph.h"
 #include "graphReader.h"
 
@@ -175,13 +174,15 @@ float GrafoMatriz::pesoAresta(int origem, int destino){
 
 void GrafoMatriz::imprimeGrafo(){
     for(int i = 0; i < grafo.size(); i++){
-        cout << format("Origem: {} | Label: {}", i, labels[i]);
+        cout << "Origem: " << i << " | Label: " << labels[i];
         for(int j = 0; j < grafo[i].size(); j++){
             if(grafo[i][j] == -1.0f){
                 continue;
             }
 
-            cout << " -> " << format("(Destino: {} | Peso: {})", j, grafo[i][j]);
+            cout << " -> "
+                 << "(Destino: " << j
+                 << " | Peso: " << grafo[i][j] << ")";
         }
         cout << endl;
     }
