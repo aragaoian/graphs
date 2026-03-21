@@ -11,6 +11,7 @@ using namespace std;
 bool GrafoList::criarGrafo(string path) {
     if(path == "") return false;
     vector<vector<string>> info = lerGrafo(path);
+    if(info.empty()) return false;
 
     int casted_vertices = stoi(info[0][0]);
     int casted_arestas = stoi(info[0][1]);
@@ -18,32 +19,25 @@ bool GrafoList::criarGrafo(string path) {
     int casted_ponderado = stoi(info[0][3]);
 
     numVertices = casted_vertices;
-    numArestas = casted_arestas;
+    numArestas = 0;
     direcionado = true ? casted_direcionado == 1 : false;
     ponderado = true ? casted_ponderado == 1 : false;
+
+    grafo.clear();
+    labels.clear();
+
+    for(int i = 0; i < numVertices; i++){
+        grafo[i];
+    }
 
     for(int i = 1; i < info.size(); i++){
         int vertice_origem = stoi(info[i][0]);
         int vertice_destino = stoi(info[i][1]);
-        
-        Aresta aresta;
-        aresta.destino = vertice_destino;
-        aresta.peso = 0.0f;
-
-        if(ponderado){
-            float peso = stof(info[i][2]);
-            aresta.peso = peso;
-        }
-
-        if(!direcionado){
-            Aresta revAresta;
-            revAresta.destino = vertice_origem;
-            revAresta.peso = aresta.peso;
-            grafo[vertice_destino].push_back(revAresta);
-        }
-
-        grafo[vertice_origem].push_back(aresta);
+        float peso = ponderado && info[i].size() > 2 ? stof(info[i][2]) : 1.0f;
+        inserirAresta(vertice_origem, vertice_destino, peso);
     }
+
+    numArestas = casted_arestas;
 
     return true;
 }
@@ -125,6 +119,14 @@ vector<int> GrafoList::retornarVizinhos(int indice){
         }
     }
     return neighboors;
+}
+
+vector<int> GrafoList::retornarVertices(){
+    vector<int> vertices;
+    for(const auto& pair: grafo){
+        vertices.push_back(pair.first);
+    }
+    return vertices;
 }
 
 string GrafoList::labelVertice(int indice){

@@ -18,6 +18,7 @@ public:
     bool inserirVertice(string label) override;
     bool removerVertice(int indice) override;
 	string labelVertice(int indice) override;
+	vector<int> retornarVertices() override;
 	vector<int> retornarVizinhos(int vertice) override;
 
 	bool inserirAresta(int origem, int destino, float peso) override;

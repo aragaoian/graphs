@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <utility>
 
 using namespace std;
 
@@ -29,6 +30,7 @@ class Grafo {
         virtual bool inserirVertice(string label = "") = 0;
         virtual bool removerVertice(int indice) = 0;
         virtual string labelVertice(int indice) = 0;
+        virtual vector<int> retornarVertices() = 0;
         virtual vector<int> retornarVizinhos(int vertice) = 0;
 
         // Arestas
@@ -41,6 +43,12 @@ class Grafo {
         virtual void imprimeGrafo() = 0;
         // virtual void exportarGrafo() = 0;
         void imprimeInfos(); 
+        vector<int> buscaLargura(int origem);
+        vector<int> buscaProfundidade(int origem);
+        vector<pair<int, float>> dijkstra(int origem);
+
+    protected:
+        void buscaProfundidadeAux(int vertice, vector<int>& visitados, vector<int>& ordem);
         
     };   
 
