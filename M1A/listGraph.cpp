@@ -85,7 +85,7 @@ bool GrafoList::removerVertice(int indice){
 
     if(grafo.find(indice) == grafo.end()) return false;
 
-    int incomingRemovals = 0;
+    int origemDestino = 0;
     for(auto& pair: grafo){
         int origem = pair.first;
         if(origem == indice) continue;
@@ -105,17 +105,16 @@ bool GrafoList::removerVertice(int indice){
             sort(indexesToRemove.begin(), indexesToRemove.end(), greater<int>());
             for(int indexToRemove: indexesToRemove){
                 grafo.at(origem).erase(destinos.begin() + indexToRemove);
-                incomingRemovals++;
+                origemDestino++;
             }
         }
     }
 
-    int outgoingFromRemoved = static_cast<int>(grafo.at(indice).size());
+    int destinoOrigem = static_cast<int>(grafo.at(indice).size());
     if(direcionado){
-        numArestas -= (incomingRemovals + outgoingFromRemoved);
+        numArestas -= (origemDestino + destinoOrigem);
     } else {
-        // In undirected graphs, incoming removals already represent logical edges.
-        numArestas -= incomingRemovals;
+        numArestas -= origemDestino;
     }
 
     if(numArestas < 0) numArestas = 0;
