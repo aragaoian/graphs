@@ -6,21 +6,14 @@
 
 using namespace std;
 
-vector<vector<string>> lerGrafo(string path = "tests/ponderado.txt"){
+vector<string> lerGrafo(string path = "tests/ponderado.txt"){
     string text;
     ifstream file(path);
-    vector<vector<string>> graphResult;
+    vector<string> graphResult;
 
     if(file.is_open()){
-        while(getline(file, text)){
-            vector <string> info;
-            for(char c: text){
-                if(c == ' '){
-                    continue;
-                }
-                info.push_back(string(1, c));
-            }
-            graphResult.push_back(info);
+        while(file >> text){
+            graphResult.push_back(text);
         }
         file.close();
     }else{

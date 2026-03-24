@@ -4,8 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-using namespace std;
 
-vector<vector<string>> lerGrafo(string path);
+std::vector<std::string> lerGrafo(std::string path);
 
 # endif

@@ -9,29 +9,36 @@
 using namespace std;
 
 bool GrafoList::criarGrafo(string path) {
-    if(path == "") return false;
-    vector<vector<string>> info = lerGrafo(path);
+    if(path.empty()) return false;
 
-    int casted_vertices = stoi(info[0][0]);
-    int casted_arestas = stoi(info[0][1]);
-    int casted_direcionado = stoi(info[0][2]);
-    int casted_ponderado = stoi(info[0][3]);
+    grafo.clear();
+    labels.clear();
+
+    vector<string> info = lerGrafo(path);
+
+    if(info.size() < 4) return false;
+    if((info.size() - 4) % 3 != 0) return false;
+
+    int casted_vertices = stoi(info[0]);
+    int casted_arestas = stoi(info[1]);
+    int casted_direcionado = stoi(info[2]);
+    int casted_ponderado = stoi(info[3]);
 
     numVertices = casted_vertices;
     numArestas = casted_arestas;
-    direcionado = true ? casted_direcionado == 1 : false;
-    ponderado = true ? casted_ponderado == 1 : false;
+    direcionado = (casted_direcionado == 1);
+    ponderado = (casted_ponderado == 1);
 
-    for(int i = 1; i < info.size(); i++){
-        int vertice_origem = stoi(info[i][0]);
-        int vertice_destino = stoi(info[i][1]);
+    for(int i = 4; i < info.size() - 2; i += 3){
+        int vertice_origem = stoi(info[i]);
+        int vertice_destino = stoi(info[i + 1]);
         
         Aresta aresta;
         aresta.destino = vertice_destino;
         aresta.peso = 0.0f;
 
         if(ponderado){
-            float peso = stof(info[i][2]);
+            float peso = stof(info[i + 2]);
             aresta.peso = peso;
         }
 
@@ -60,15 +67,12 @@ int GrafoList::indexMaximo(){
 }
 
 bool GrafoList::inserirVertice(string label){
-    try{
-        int newIndex = indexMaximo() + 1;
-        grafo[newIndex];
-        if(label != "") labels[newIndex] = label;
-        numVertices++;
-        return true;
-    }catch (const runtime_error& e){
-        return false;
-    }
+    int newIndex = indexMaximo() + 1;
+    grafo[newIndex];
+    if(label != "") labels[newIndex] = label;
+    numVertices++;
+    cout << "Vértice com índice" << newIndex << " e label " <<  label << " ADICIONADO" << endl;
+    return true;
 }
 
 bool GrafoList::removerVertice(int indice){
@@ -78,34 +82,47 @@ bool GrafoList::removerVertice(int indice){
         * e também a referência no vetor de labels
         * (caso tenha).
     */
-    try{
-        for(auto& pair: grafo){
-            int origem = pair.first;
-            if(origem == indice) continue;
 
-            vector<Aresta>& destinos = pair.second;
-            vector<int> indexesToRemove;
-            for(int i = 0; i < destinos.size(); i++){
-                if(destinos[i].destino != indice) continue;
-                indexesToRemove.push_back(i);
-            }
+    if(grafo.find(indice) == grafo.end()) return false;
 
-            if(indexesToRemove.size() > 0){
-                for(int indexToRemove: indexesToRemove){
-                    grafo[origem].erase(destinos.begin() + indexToRemove);
-                    numArestas--;
-                }
+    int origemDestino = 0;
+    for(auto& pair: grafo){
+        int origem = pair.first;
+        if(origem == indice) continue;
+
+        vector<Aresta>& destinos = pair.second;
+        vector<int> indexesToRemove;
+        for(int i = 0; i < destinos.size(); i++){
+            if(destinos[i].destino != indice) continue;
+            indexesToRemove.push_back(i);
+        }
+
+        if(indexesToRemove.size() > 0){
+            // Remover em ordem DESC para não
+            // alterar a ordem dos índices
+            // Essa parte só serve pra remover as referências
+            // (Ou seja, não há mais arestas se não houver mais o vértice)
+            sort(indexesToRemove.begin(), indexesToRemove.end(), greater<int>());
+            for(int indexToRemove: indexesToRemove){
+                grafo.at(origem).erase(destinos.begin() + indexToRemove);
+                origemDestino++;
             }
         }
-        
-        grafo.erase(indice);
-        numVertices--;
-        labels.erase(indice);
-
-        return true;
-    }catch(const runtime_error& e){
-        return false;
     }
+
+    int destinoOrigem = static_cast<int>(grafo.at(indice).size());
+    if(direcionado){
+        numArestas -= (origemDestino + destinoOrigem);
+    } else {
+        numArestas -= origemDestino;
+    }
+
+    if(numArestas < 0) numArestas = 0;
+    grafo.erase(indice);
+    numVertices--;
+    labels.erase(indice);
+    cout << "Vértice com índice " << indice << " REMOVIDO" << endl;
+    return true;
 }
 
 vector<int> GrafoList::retornarVizinhos(int indice){
@@ -133,48 +150,56 @@ string GrafoList::labelVertice(int indice){
 }
 
 bool GrafoList::inserirAresta(int origem, int destino, float peso){
-    try{
-        if(grafo.find(origem) == grafo.end()) return false;
+    if(grafo.find(origem) == grafo.end()) return false;
+    if(grafo.find(destino) == grafo.end()) return false;
 
-        if(!direcionado){
-            if(grafo.find(destino) == grafo.end()) return false;
+    // Aresta com destino para destino já existe
+    vector<Aresta>& origemArestas = grafo.at(origem);
+    auto origemIt = find_if(origemArestas.begin(), origemArestas.end(), [destino](Aresta a){return a.destino == destino;});
+    if(origemIt != origemArestas.end()) return false;
+
+    if(!direcionado){
+        // Aresta com destino para origem já existe
+        vector<Aresta>& destinoArestas = grafo.at(destino);
+        auto origemIt = find_if(destinoArestas.begin(), destinoArestas.end(), [origem](Aresta a){return a.destino == origem;});
+        if(origemIt != destinoArestas.end()) return false;
+
+        if(origem != destino){
             Aresta nonDirectAresta;
             nonDirectAresta.destino = origem;
             nonDirectAresta.peso = ponderado ? peso : 0.0f;
             grafo.at(destino).push_back(nonDirectAresta);
         }
-
-        Aresta directAresta = {destino, ponderado ? peso : 0.0f};
-        grafo.at(origem).push_back(directAresta);
-        numArestas++;
-        return true;
-    }catch(const runtime_error& e){
-        return false;
     }
+
+    Aresta directAresta = {destino, ponderado ? peso : 0.0f};
+    grafo.at(origem).push_back(directAresta);
+    numArestas++;
+    cout << "Aresta ADICIONADO com origem " << origem << ", destino " << destino << " e peso " << peso << endl;
+    return true;
 }
 
 bool GrafoList::removerAresta(int origem, int destino){
-    try{
-        if(grafo.find(origem) == grafo.end()) return false;
+    if(grafo.find(origem) == grafo.end()) return false;
+    if(grafo.find(destino) == grafo.end()) return false;
 
-        if(!direcionado){
-            if(grafo.find(destino) == grafo.end()) return false;
-            vector<Aresta>& destinoArestas = grafo.at(destino);
-            auto origemIt = find_if(destinoArestas.begin(), destinoArestas.end(), [origem](Aresta a){return a.destino == origem;});
-            int indexOrigemAresta = distance(destinoArestas.begin(), origemIt);
-            destinoArestas.erase(destinoArestas.begin() + indexOrigemAresta);
-        }
-
-        vector<Aresta>& origemArestas = grafo.at(origem);
-        auto origemIt = find_if(origemArestas.begin(), origemArestas.end(), [destino](Aresta a){return a.destino == destino;});
-        int indexOrigemAresta = distance(origemArestas.begin(), origemIt);
-        origemArestas.erase(origemArestas.begin() + indexOrigemAresta);
-
-        numArestas--;
-        return true;
-    }catch(const runtime_error& e){
-        return false;
+    if(!direcionado){
+        vector<Aresta>& destinoArestas = grafo.at(destino);
+        auto origemIt = find_if(destinoArestas.begin(), destinoArestas.end(), [origem](Aresta a){return a.destino == origem;});
+        if(origemIt == destinoArestas.end()) return false;
+        int indexOrigemAresta = distance(destinoArestas.begin(), origemIt);
+        destinoArestas.erase(destinoArestas.begin() + indexOrigemAresta);
     }
+
+    vector<Aresta>& origemArestas = grafo.at(origem);
+    auto destinoIt = find_if(origemArestas.begin(), origemArestas.end(), [destino](Aresta a){return a.destino == destino;});
+    if(destinoIt == origemArestas.end()) return false;
+    int indexDestinoAresta = distance(origemArestas.begin(), destinoIt);
+    origemArestas.erase(origemArestas.begin() + indexDestinoAresta);
+
+    numArestas--;
+    cout << "Aresta REMOVIDA com origem " << origem << " e destino " << destino << endl;
+    return true;
 }
 
 bool GrafoList::existeAresta(int origem, int destino){
@@ -186,14 +211,13 @@ bool GrafoList::existeAresta(int origem, int destino){
 }
 
 float GrafoList::pesoAresta(int origem, int destino){
-    if(grafo.find(origem) == grafo.end()) return false;
+    if(grafo.find(origem) == grafo.end()) return 0.0f;
 
     vector<Aresta>& origemArestas = grafo.at(origem);
     auto it = find_if(origemArestas.begin(), origemArestas.end(), [destino](Aresta a){return a.destino == destino;});
     if(it == origemArestas.end()) return 0.0f;
-    
-    int index = distance(origemArestas.begin(), it);
-    return origemArestas.at(index).peso;
+
+    return it->peso;
 }
 
 void GrafoList::imprimeGrafo() {
@@ -201,7 +225,10 @@ void GrafoList::imprimeGrafo() {
         int origem = pair.first;
         vector<Aresta> destinos = pair.second;
         
-        cout << format("Origem: {} | Label: {}", origem, labels[origem]);
+        string label = "";
+        if(labels.find(origem) != labels.end()) label = labels.at(origem);
+
+        cout << format("Origem: {} | Label: {}", origem, label);
         for(Aresta a: destinos){
             string formatted_aresta = format("(Destino: {} | Peso: {})", a.destino, a.peso);
             cout << " -> " << formatted_aresta;
