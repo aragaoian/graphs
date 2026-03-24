@@ -5,8 +5,6 @@
 #include <string>
 #include <iostream>
 
-using namespace std;
-
 struct Aresta {
     int destino;
     float peso;
@@ -20,16 +18,20 @@ class Grafo {
         bool ponderado;
 
     public:
-        Grafo() : numVertices(0), numArestas(0), direcionado(false), ponderado(false) {}
+        Grafo(bool usr_opt_direcionado = false, bool usr_opt_ponderado = false)
+            : numVertices(0),
+              numArestas(0),
+              direcionado(usr_opt_direcionado),
+              ponderado(usr_opt_ponderado) {}
         virtual ~Grafo() {}
 
-        virtual bool criarGrafo(string path = "") = 0;
+        virtual bool criarGrafo(std::string path = "") = 0;
 
         // Vértices
-        virtual bool inserirVertice(string label = "") = 0;
+        virtual bool inserirVertice(std::string label = "") = 0;
         virtual bool removerVertice(int indice) = 0;
-        virtual string labelVertice(int indice) = 0;
-        virtual vector<int> retornarVizinhos(int vertice) = 0;
+        virtual std::string labelVertice(int indice) = 0;
+        virtual std::vector<int> retornarVizinhos(int vertice) = 0;
 
         // Arestas
         virtual bool inserirAresta(int origem, int destino, float peso = 1) = 0;
