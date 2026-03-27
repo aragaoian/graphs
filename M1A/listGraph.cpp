@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <format>
 #include <algorithm>
 #include "listGraph.h"
 #include "graphReader.h"
@@ -9,7 +8,9 @@
 using namespace std;
 
 bool GrafoList::criarGrafo(string path) {
-    if(path.empty()) return false;
+    if(path == "") return false;
+    vector<vector<string>> info = lerGrafo(path);
+    if(info.empty()) return false;
 
     grafo.clear();
     labels.clear();
@@ -51,6 +52,8 @@ bool GrafoList::criarGrafo(string path) {
 
         grafo[vertice_origem].push_back(aresta);
     }
+
+    numArestas = casted_arestas;
 
     return true;
 }
@@ -144,6 +147,14 @@ vector<int> GrafoList::retornarVizinhos(int indice){
     return neighboors;
 }
 
+vector<int> GrafoList::retornarVertices(){
+    vector<int> vertices;
+    for(const auto& pair: grafo){
+        vertices.push_back(pair.first);
+    }
+    return vertices;
+}
+
 string GrafoList::labelVertice(int indice){
     auto it = labels.find(indice);
     return it == labels.end() ? "Vértice não possui label." : it->second;
@@ -230,8 +241,9 @@ void GrafoList::imprimeGrafo() {
 
         cout << format("Origem: {} | Label: {}", origem, label);
         for(Aresta a: destinos){
-            string formatted_aresta = format("(Destino: {} | Peso: {})", a.destino, a.peso);
-            cout << " -> " << formatted_aresta;
+            cout << " -> "
+                 << "(Destino: " << a.destino
+                 << " | Peso: " << a.peso << ")";
         }
         cout << endl;
     }

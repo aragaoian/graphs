@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <sstream>
 #include "graphReader.h"
 
 using namespace std;
@@ -12,8 +13,20 @@ vector<string> lerGrafo(string path = "tests/ponderado.txt"){
     vector<string> graphResult;
 
     if(file.is_open()){
-        while(file >> text){
-            graphResult.push_back(text);
+        while(getline(file, text)){
+            vector<string> info;
+            istringstream lineStream(text);
+            string value;
+
+            while(lineStream >> value){
+                info.push_back(value);
+            }
+
+            if(info.empty()){
+                continue;
+            }
+
+            graphResult.push_back(info);
         }
         file.close();
     }else{

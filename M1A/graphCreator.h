@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <utility>
 
 struct Aresta {
     int destino;
@@ -43,6 +44,12 @@ class Grafo {
         virtual void imprimeGrafo() = 0;
         // virtual void exportarGrafo() = 0;
         void imprimeInfos(); 
+        std::vector<int> buscaLargura(int origem);
+        std::vector<int> buscaProfundidade(int origem);
+        std::vector<std::pair<int, float>> dijkstra(int origem);
+
+    protected:
+        void buscaProfundidadeAux(int vertice, std::vector<int>& visitados, std::vector<int>& ordem);
         
     };   
 
