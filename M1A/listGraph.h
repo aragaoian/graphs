@@ -18,7 +18,6 @@ public:
     bool inserirVertice(std::string label) override;
     bool removerVertice(int indice) override;
 	std::string labelVertice(int indice) override;
-	std::vector<int> retornarVertices() override;
 	std::vector<int> retornarVizinhos(int vertice) override;
 
 	bool inserirAresta(int origem, int destino, float peso) override;

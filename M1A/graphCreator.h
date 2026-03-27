@@ -19,7 +19,11 @@ class Grafo {
         bool ponderado;
 
     public:
-        Grafo() : numVertices(0), numArestas(0), direcionado(false), ponderado(false) {}
+        Grafo(bool usr_opt_direcionado = false, bool usr_opt_ponderado = false)
+            : numVertices(0),
+              numArestas(0),
+              direcionado(usr_opt_direcionado),
+              ponderado(usr_opt_ponderado) {}
         virtual ~Grafo() {}
 
         virtual bool criarGrafo(std::string path = "") = 0;
@@ -28,7 +32,6 @@ class Grafo {
         virtual bool inserirVertice(std::string label = "") = 0;
         virtual bool removerVertice(int indice) = 0;
         virtual std::string labelVertice(int indice) = 0;
-        virtual std::vector<int> retornarVertices() = 0;
         virtual std::vector<int> retornarVizinhos(int vertice) = 0;
 
         // Arestas
