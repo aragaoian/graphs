@@ -8,18 +8,18 @@
 
 class GrafoList : public Grafo {
 private:
-	std::map<int, vector<Aresta>> grafo;
-	std::map<int, string> labels;
+	std::map<int, std::vector<Aresta>> grafo;
+	std::map<int, std::string> labels;
 	virtual int indexMaximo();
 	
 public:
 	bool criarGrafo(std::string path) override;
 
-    bool inserirVertice(string label) override;
+    bool inserirVertice(std::string label) override;
     bool removerVertice(int indice) override;
-	string labelVertice(int indice) override;
-	vector<int> retornarVertices() override;
-	vector<int> retornarVizinhos(int vertice) override;
+	std::string labelVertice(int indice) override;
+	std::vector<int> retornarVertices() override;
+	std::vector<int> retornarVizinhos(int vertice) override;
 
 	bool inserirAresta(int origem, int destino, float peso) override;
 	bool removerAresta(int origem, int destino) override;

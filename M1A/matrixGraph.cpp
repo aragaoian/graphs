@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cmath>
+#include <iomanip>
 #include "matrixGraph.h"
 #include "graphReader.h"
 
@@ -173,16 +175,26 @@ float GrafoMatriz::pesoAresta(int origem, int destino){
 }
 
 void GrafoMatriz::imprimeGrafo(){
-    for(int i = 0; i < grafo.size(); i++){
-        cout << "Origem: " << i << " | Label: " << labels[i];
-        for(int j = 0; j < grafo[i].size(); j++){
-            if(grafo[i][j] == -1.0f){
-                continue;
-            }
+    int maxNumSize = to_string(grafo.size()).length();
+    int colWidth = maxNumSize < 6 ? 6 : maxNumSize;
+    int numVertices = grafo.size();
 
-            cout << " -> "
-                 << "(Destino: " << j
-                 << " | Peso: " << grafo[i][j] << ")";
+    for(int k = 0; k < colWidth; k++) cout << ' ';
+    for(int j = 0; j < numVertices; j++){
+        cout << setw(colWidth) << j;
+    }
+    cout << endl;
+
+    for(int i = 0; i < numVertices; i++){
+        cout << setw(colWidth - 2) << i << " |";
+        for(int j = 0; j < numVertices; j++){
+            if(grafo[i][j] == -1.0f){
+                cout << setw(colWidth) << (ponderado ? "-" : "0");
+            }else if(ponderado){
+                cout << setw(colWidth) << fixed << setprecision(1) << grafo[i][j];
+            }else{
+                cout << setw(colWidth) << (int)grafo[i][j];
+            }
         }
         cout << endl;
     }

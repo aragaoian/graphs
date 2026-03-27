@@ -6,8 +6,6 @@
 #include <iostream>
 #include <utility>
 
-using namespace std;
-
 struct Aresta {
     int destino;
     float peso;
@@ -24,14 +22,14 @@ class Grafo {
         Grafo() : numVertices(0), numArestas(0), direcionado(false), ponderado(false) {}
         virtual ~Grafo() {}
 
-        virtual bool criarGrafo(string path = "") = 0;
+        virtual bool criarGrafo(std::string path = "") = 0;
 
         // Vértices
-        virtual bool inserirVertice(string label = "") = 0;
+        virtual bool inserirVertice(std::string label = "") = 0;
         virtual bool removerVertice(int indice) = 0;
-        virtual string labelVertice(int indice) = 0;
-        virtual vector<int> retornarVertices() = 0;
-        virtual vector<int> retornarVizinhos(int vertice) = 0;
+        virtual std::string labelVertice(int indice) = 0;
+        virtual std::vector<int> retornarVertices() = 0;
+        virtual std::vector<int> retornarVizinhos(int vertice) = 0;
 
         // Arestas
         virtual bool inserirAresta(int origem, int destino, float peso = 1) = 0;
@@ -43,12 +41,12 @@ class Grafo {
         virtual void imprimeGrafo() = 0;
         // virtual void exportarGrafo() = 0;
         void imprimeInfos(); 
-        vector<int> buscaLargura(int origem);
-        vector<int> buscaProfundidade(int origem);
-        vector<pair<int, float>> dijkstra(int origem);
+        std::vector<int> buscaLargura(int origem);
+        std::vector<int> buscaProfundidade(int origem);
+        std::vector<std::pair<int, float>> dijkstra(int origem);
 
     protected:
-        void buscaProfundidadeAux(int vertice, vector<int>& visitados, vector<int>& ordem);
+        void buscaProfundidadeAux(int vertice, std::vector<int>& visitados, std::vector<int>& ordem);
         
     };   
 
