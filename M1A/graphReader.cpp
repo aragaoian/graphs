@@ -7,10 +7,10 @@
 
 using namespace std;
 
-vector<string> lerGrafo(string path = "tests/ponderado.txt"){
+vector<vector<string>> lerGrafo(string path = "tests/ponderado.txt"){
     string text;
     ifstream file(path);
-    vector<string> graphResult;
+    vector<vector<string>> graphResult;
 
     if(file.is_open()){
         while(getline(file, text)){

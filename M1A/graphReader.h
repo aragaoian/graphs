@@ -5,6 +5,6 @@
 #include <vector>
 #include <string>
 
-std::vector<std::string> lerGrafo(std::string path);
+std::vector<std::vector<std::string>> lerGrafo(std::string path);
 
 # endif
