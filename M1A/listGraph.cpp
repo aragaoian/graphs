@@ -9,13 +9,11 @@ using namespace std;
 
 bool GrafoList::criarGrafo(string path) {
     if(path == "") return false;
-    vector<vector<string>> info = lerGrafo(path);
+    vector<string> info = lerGrafo(path);
     if(info.empty()) return false;
 
     grafo.clear();
     labels.clear();
-
-    vector<string> info = lerGrafo(path);
 
     if(info.size() < 4) return false;
     if((info.size() - 4) % 3 != 0) return false;
@@ -26,13 +24,21 @@ bool GrafoList::criarGrafo(string path) {
     int casted_ponderado = stoi(info[3]);
 
     numVertices = casted_vertices;
-    numArestas = casted_arestas;
+    numArestas = 0;
     direcionado = (casted_direcionado == 1);
     ponderado = (casted_ponderado == 1);
+
+    for(int i = 0; i < numVertices; i++){
+        grafo[i];
+    }
 
     for(int i = 4; i < info.size() - 2; i += 3){
         int vertice_origem = stoi(info[i]);
         int vertice_destino = stoi(info[i + 1]);
+
+        if(vertice_origem < 0 || vertice_origem >= numVertices || vertice_destino < 0 || vertice_destino >= numVertices){
+            return false;
+        }
         
         Aresta aresta;
         aresta.destino = vertice_destino;
@@ -51,9 +57,12 @@ bool GrafoList::criarGrafo(string path) {
         }
 
         grafo[vertice_origem].push_back(aresta);
+        numArestas++;
     }
 
-    numArestas = casted_arestas;
+    if(numArestas != casted_arestas){
+        return false;
+    }
 
     return true;
 }
@@ -239,7 +248,7 @@ void GrafoList::imprimeGrafo() {
         string label = "";
         if(labels.find(origem) != labels.end()) label = labels.at(origem);
 
-        cout << format("Origem: {} | Label: {}", origem, label);
+        cout << "Origem: " << origem << " | Label: " << label;
         for(Aresta a: destinos){
             cout << " -> "
                  << "(Destino: " << a.destino

@@ -33,6 +33,7 @@ class Grafo {
         virtual bool removerVertice(int indice) = 0;
         virtual std::string labelVertice(int indice) = 0;
         virtual std::vector<int> retornarVizinhos(int vertice) = 0;
+        virtual std::vector<int> retornarVertices() = 0;
 
         // Arestas
         virtual bool inserirAresta(int origem, int destino, float peso = 1) = 0;

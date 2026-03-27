@@ -14,30 +14,35 @@ int GrafoMatriz::indexMaximo(){
 
 bool GrafoMatriz::criarGrafo(string path){
     if(path == "") return false;
-    vector<vector<string>> info = lerGrafo(path);
-    if(info.empty()) return false;
+    vector<string> info = lerGrafo(path);
+    if(info.size() < 4) return false;
+    if((info.size() - 4) % 3 != 0) return false;
 
-    int casted_vertices = stoi(info[0][0]);
-    int casted_arestas = stoi(info[0][1]);
-    int casted_direcionado = stoi(info[0][2]);
-    int casted_ponderado = stoi(info[0][3]);
+    int casted_vertices = stoi(info[0]);
+    int casted_direcionado = stoi(info[2]);
+    int casted_ponderado = stoi(info[3]);
 
     numVertices = casted_vertices;
     numArestas = 0;
-    direcionado = casted_direcionado == 1;
-    ponderado = casted_ponderado == 1;
+    direcionado = (casted_direcionado == 1);
+    ponderado = (casted_ponderado == 1);
 
     grafo.assign(numVertices, vector<float>(numVertices, -1.0f));
     labels.clear();
 
-    for(int i = 1; i < info.size(); i++){
-        int vertice_origem = stoi(info[i][0]);
-        int vertice_destino = stoi(info[i][1]);
-        float peso = ponderado && info[i].size() > 2 ? stof(info[i][2]) : 1.0f;
-        inserirAresta(vertice_origem, vertice_destino, peso);
+    for(int i = 4; i < info.size() - 2; i += 3){
+        int vertice_origem = stoi(info[i]);
+        int vertice_destino = stoi(info[i + 1]);
+        if(vertice_origem < 0 || vertice_origem >= numVertices || vertice_destino < 0 || vertice_destino >= numVertices){
+            return false;
+        }
+
+        float peso = ponderado ? stof(info[i + 2]) : 1.0f;
+        if(!inserirAresta(vertice_origem, vertice_destino, peso)){
+            return false;
+        }
     }
 
-    numArestas = casted_arestas;
     return true;
 }
 
@@ -67,19 +72,23 @@ bool GrafoMatriz::removerVertice(int indice){
         return false;
     }
 
-    for(int i = 0; i < grafo.size(); i++){
-        if(grafo[indice][i] != -1.0f){
-            numArestas--;
-        }
-
-        if(direcionado && i != indice && grafo[i][indice] != -1.0f){
-            numArestas--;
-        }
-    }
-
     grafo.erase(grafo.begin() + indice);
     for(auto& linha: grafo){
         linha.erase(linha.begin() + indice);
+    }
+
+    // Recompute edge count from matrix to keep it consistent after index shifting.
+    numArestas = 0;
+    for(int i = 0; i < static_cast<int>(grafo.size()); i++){
+        for(int j = 0; j < static_cast<int>(grafo[i].size()); j++){
+            if(grafo[i][j] == -1.0f){
+                continue;
+            }
+
+            if(direcionado || i <= j){
+                numArestas++;
+            }
+        }
     }
 
     map<int, string> novosLabels;

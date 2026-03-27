@@ -7,28 +7,18 @@
 
 using namespace std;
 
-vector<vector<string>> lerGrafo(string path = "tests/ponderado.txt"){
+vector<string> lerGrafo(string path = "tests/ponderado.txt"){
     string text;
     ifstream file(path);
-    vector<vector<string>> graphResult;
+    vector<string> graphResult;
 
     if(file.is_open()){
-        while(getline(file, text)){
-            vector<string> info;
-            istringstream lineStream(text);
-            string value;
-
-            while(lineStream >> value){
-                info.push_back(value);
-            }
-
-            if(info.empty()){
-                continue;
-            }
-
-            graphResult.push_back(info);
+        while(file >> text){
+            graphResult.push_back(text);
         }
+
         file.close();
+
     }else{
         cerr << "Não foi possível ler o arquivo" << endl;
     }

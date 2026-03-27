@@ -35,20 +35,20 @@ int main()
         return 1;
     }
 
-    // cout << "Lista de adjacencia" << endl;
-    // grafoLista.imprimeGrafo();
-    // grafoLista.imprimeInfos();
-    // imprimeOrdem("BFS: ", grafoLista.buscaLargura(0));
-    // imprimeOrdem("DFS: ", grafoLista.buscaProfundidade(0));
-    // grafoLista.dijkstra(0);
+    cout << "Lista de adjacencia" << endl;
+    grafoLista.imprimeGrafo();
+    grafoLista.imprimeInfos();
+    imprimeOrdem("BFS: ", grafoLista.buscaLargura(0));
+    imprimeOrdem("DFS: ", grafoLista.buscaProfundidade(0));
+    grafoLista.dijkstra(0);
 
     cout << endl
          << "Matriz de adjacencia" << endl;
     grafoMatriz.imprimeGrafo();
-    // grafoMatriz.imprimeInfos();
-    // imprimeOrdem("BFS: ", grafoMatriz.buscaLargura(0));
-    // imprimeOrdem("DFS: ", grafoMatriz.buscaProfundidade(0));
-    // grafoMatriz.dijkstra(0);
+    grafoMatriz.imprimeInfos();
+    imprimeOrdem("BFS: ", grafoMatriz.buscaLargura(0));
+    imprimeOrdem("DFS: ", grafoMatriz.buscaProfundidade(0));
+    grafoMatriz.dijkstra(0);
 
     return 0;
 }

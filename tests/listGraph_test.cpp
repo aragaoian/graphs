@@ -91,7 +91,6 @@ void testIsolatedVerticesAndZeroEdgeGraph(const FixturePaths& paths) {
     // em vértices não existentes
     assert(!g.inserirAresta(0, 99, 1.0f));
 
-    std::filesystem::remove(paths.isolated_directed_graph);
 }
 
 void testVertexFunctions() {
