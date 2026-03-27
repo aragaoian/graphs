@@ -77,7 +77,6 @@ bool GrafoMatriz::removerVertice(int indice){
         linha.erase(linha.begin() + indice);
     }
 
-    // Recompute edge count from matrix to keep it consistent after index shifting.
     numArestas = 0;
     for(int i = 0; i < static_cast<int>(grafo.size()); i++){
         for(int j = 0; j < static_cast<int>(grafo[i].size()); j++){

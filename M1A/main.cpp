@@ -282,7 +282,10 @@ int main(int argc, char *argv[])
         {1, "tests/direcionadoNaoPonderado.txt"},
         {2, "tests/direcionadoPonderado.txt"},
         {3, "tests/naoDirecionadoNaoPonderado.txt"},
-        {4, "tests/naoDirecionadoPonderado.txt"}
+        {4, "tests/naoDirecionadoPonderado.txt"},
+        {5, "tests/espacoaereo.txt"},
+        {6, "tests/slides.txt"},
+        {7, "tests/slides_modificado.txt"}
     };
 
     while(true){
@@ -294,6 +297,9 @@ int main(int argc, char *argv[])
         cout << "2 - Direcionado Ponderado" << endl;
         cout << "3 - Não Direcionado Não Ponderado" << endl;
         cout << "4 - Não Direcionado Ponderado" << endl;
+        cout << "5 - Espaço Aéreo" << endl;
+        cout << "6 - Slides" << endl;
+        cout << "7 - Slides Modificado" << endl;
         cout << "0 - Encerrar" << endl;
 
         if (!(cin >> fileUserOpt)) {
@@ -302,7 +308,7 @@ int main(int argc, char *argv[])
             continue;
         }
 
-        if (fileUserOpt > 4 || fileUserOpt < 0) {
+        if (fileUserOpt > 7 || fileUserOpt < 0) {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
         } else {
