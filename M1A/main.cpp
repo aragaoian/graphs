@@ -2,9 +2,11 @@
 #include <limits>
 #include <map>
 #include <vector>
+#include <chrono>
 #include "graphCreator.h"
 #include "listGraph.h"
 #include "matrixGraph.h"
+#include "coloring.h"
 
 using namespace std;
 
@@ -35,6 +37,97 @@ void wait_()
     cin.get();
 }
 
+vector<vector<int>> buildAdjList(Grafo &grafo)
+{
+    vector<int> vertices = grafo.retornarVertices();
+    int V = vertices.size();
+
+    vector<vector<int>> adj(V);
+
+    for (int v : vertices)
+    {
+        vector<int> vizinhos = grafo.retornarVizinhos(v);
+        adj[v] = vizinhos;
+    }
+
+    return adj;
+}
+
+void executarColoracao(Grafo &grafo)
+{
+    vector<vector<int>> adj = buildAdjList(grafo);
+    int V = adj.size();
+
+    vector<int> color;
+
+    cout << "\nColoracao de Grafos\n";
+
+    // Força Bruta
+    if (V < 10)
+    {
+        auto start = chrono::high_resolution_clock::now();
+
+        int cores = bruteForceColoring(adj, V, color);
+
+        auto end = chrono::high_resolution_clock::now();
+        auto tempo = chrono::duration_cast<chrono::milliseconds>(end - start);
+
+        cout << "\n[Forca Bruta]\n";
+        cout << "Cores: " << cores << endl;
+        cout << "Tempo: " << tempo.count() << " ms\n";
+        printColoring(color, V);
+    }
+    else
+    {
+        cout << "\n[Forca Bruta ignorada - grafo grande]\n";
+    }
+
+    // Guloso
+    {
+        auto start = chrono::high_resolution_clock::now();
+
+        int cores = greedyColoring(adj, V, color);
+
+        auto end = chrono::high_resolution_clock::now();
+        auto tempo = chrono::duration_cast<chrono::milliseconds>(end - start);
+
+        cout << "\n[Guloso]\n";
+        cout << "Cores: " << cores << endl;
+        cout << "Tempo: " << tempo.count() << " ms\n";
+        printColoring(color, V);
+    }
+
+    // Welsh-Powell
+    {
+        auto start = chrono::high_resolution_clock::now();
+
+        int cores = welshPowell(adj, V, color);
+
+        auto end = chrono::high_resolution_clock::now();
+        auto tempo = chrono::duration_cast<chrono::milliseconds>(end - start);
+
+        cout << "\n[Welsh-Powell]\n";
+        cout << "Cores: " << cores << endl;
+        cout << "Tempo: " << tempo.count() << " ms\n";
+        printColoring(color, V);
+    }
+
+    // Dsatur
+    {
+        auto start = chrono::high_resolution_clock::now();
+
+        int cores = dsatur(adj, V, color);
+
+        auto end = chrono::high_resolution_clock::now();
+        auto tempo = chrono::duration_cast<chrono::milliseconds>(end - start);
+
+        cout << "\n[DSATUR]\n";
+        cout << "Cores: " << cores << endl;
+        cout << "Tempo: " << tempo.count() << " ms\n";
+        printColoring(color, V);
+    }
+}
+
 void executeOpts(Grafo &grafo)
 {
     while (true)
@@ -57,6 +150,7 @@ void executeOpts(Grafo &grafo)
         cout << "12 - Busca em largura" << endl;
         cout << "13 - Busca em profundidade" << endl;
         cout << "14 - Dijkstra" << endl;
+        cout << "15 - Coloracao de Grafos" << endl;
         cout << "0 - Voltar" << endl;
 
         if (!(cin >> operacao))
@@ -65,7 +159,7 @@ void executeOpts(Grafo &grafo)
             continue;
         }
 
-        if (operacao < 0 || operacao > 14)
+        if (operacao < 0 || operacao > 15)
         {
             clearInput();
             continue;
@@ -258,6 +352,11 @@ void executeOpts(Grafo &grafo)
                 break;
             }
             grafo.dijkstra(origem);
+            break;
+        }
+        case 15:
+        {
+            executarColoracao(grafo);
             break;
         }
         default:
