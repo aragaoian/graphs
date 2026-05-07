@@ -384,7 +384,8 @@ int main(int argc, char *argv[])
         {4, "tests/naoDirecionadoPonderado.txt"},
         {5, "tests/espacoaereo.txt"},
         {6, "tests/slides.txt"},
-        {7, "tests/slides_modificado.txt"}
+        {7, "tests/slides_modificado.txt"},
+        {8, "tests/coloracao.txt"}
     };
 
     while(true){
@@ -407,7 +408,7 @@ int main(int argc, char *argv[])
             continue;
         }
 
-        if (fileUserOpt > 7 || fileUserOpt < 0) {
+        if (fileUserOpt > 8 || fileUserOpt < 0) {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
         } else {
