@@ -5,6 +5,10 @@
 
 using namespace std;
 
+// TODO
+// Dar uma atencão nos comentários
+// deixar só o necessário
+
 //verificar se é possivel colorir o vertice v com a cor c
 //caso exista a cor em algum adjacente, retorna false
 //caso contrário, retorna true
@@ -210,9 +214,8 @@ int dsatur(vector<vector<int>>& adj, int V, vector<int>& color) {
 }
 
 void printColoring(vector<int>& color, int V) {
-    if (V < 10) {
-        for (int i = 0; i < V; i++) {
-            cout << "Vertice " << i << " -> Cor " << color[i] << endl;
-        }
+    if(V > 10) return;
+    for (int i = 0; i < V; i++) {
+        cout << "Vertice " << i << " -> Cor " << color[i] << endl;
     }
 }
