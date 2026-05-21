@@ -6,7 +6,8 @@
 #include "M1A/graphCreator.h"
 #include "M1A/listGraph.h"
 #include "M1A/matrixGraph.h"
-#include "M1B/timedTests.h"
+#include "M2A/timedTests.h"
+#include "M2B/MST.h"
 
 void printOrder(std::string titulo, std::vector<int> ordem)
 {
@@ -58,6 +59,7 @@ void executeOpts(Grafo &grafo)
         std::cout << "13 - Busca em profundidade" << std::endl;
         std::cout << "14 - Dijkstra" << std::endl;
         std::cout << "15 - Coloracao de Grafos" << std::endl;
+        std::cout << "16 - Arvore Geradora Minima" << std::endl;
         std::cout << "0 - Voltar" << std::endl;
 
         if (!(std::cin >> opt))
@@ -66,7 +68,7 @@ void executeOpts(Grafo &grafo)
             continue;
         }
 
-        if (opt < 0 || opt > 15)
+        if (opt < 0 || opt > 16)
         {
             clearInput();
             continue;
@@ -264,6 +266,11 @@ void executeOpts(Grafo &grafo)
         case 15:
         {
             executeTimedTests(grafo);
+            break;
+        }
+        case 16:
+        {
+            executeMST(grafo);
             break;
         }
         default:
