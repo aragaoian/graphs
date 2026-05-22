@@ -7,7 +7,7 @@
 #include "M1A/listGraph.h"
 #include "M1A/matrixGraph.h"
 #include "M2A/timedTests.h"
-#include "M2B/MST.h"
+#include "M2B/timedTests.h"
 
 void printOrder(std::string titulo, std::vector<int> ordem)
 {

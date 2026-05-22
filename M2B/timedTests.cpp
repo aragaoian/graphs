@@ -3,7 +3,7 @@
 #include <string>
 #include <chrono>
 #include <algorithm>
-#include "M1A/graphCreator.h"
+#include "../M1A/graphCreator.h"
 #include "MST.h"
 
 void buildIndexMap(Grafo &grafo, std::vector<int> &vertices, std::vector<int> &idToIndex)
@@ -23,7 +23,7 @@ static void runTimedMST(
     bool isPrim,
     const std::string &funcName
 ){
-    const int runs = 10000;
+    const int runs = 1;
     std::vector<ArestaMST> mst;
 
     auto start = std::chrono::high_resolution_clock::now();

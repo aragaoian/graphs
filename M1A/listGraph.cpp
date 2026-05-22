@@ -12,11 +12,15 @@ bool GrafoList::criarGrafo(string path) {
     vector<string> info = lerGrafo(path);
     if(info.empty()) return false;
 
+    std::cout << info.size() << std::endl;
+    for (int i = 0; i < 10; i++){
+        std::cout << "[" << info[i] << "]\n";
+    }
+
     grafo.clear();
     labels.clear();
 
     if(info.size() < 4) return false;
-    if((info.size() - 4) % 3 != 0) return false;
 
     int casted_vertices = stoi(info[0]);
     int casted_arestas = stoi(info[1]);
@@ -27,12 +31,11 @@ bool GrafoList::criarGrafo(string path) {
     numArestas = 0;
     direcionado = (casted_direcionado == 1);
     ponderado = (casted_ponderado == 1);
+    
+    int stepSize = ponderado ? 3 : 2;
+    if((info.size() - 4) % stepSize != 0) return false;
 
-    for(int i = 0; i < numVertices; i++){
-        grafo[i];
-    }
-
-    for(int i = 4; i < info.size() - 2; i += 3){
+    for(int i = 4; i < info.size() - 2; i += stepSize){
         int vertice_origem = stoi(info[i]);
         int vertice_destino = stoi(info[i + 1]);
 

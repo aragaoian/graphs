@@ -1,6 +1,6 @@
 #include <vector>
 #include <string>
-#include "M1A/graphCreator.h"
+#include "../M1A/graphCreator.h"
 
 void runTimedMST(
     Grafo &grafo,
