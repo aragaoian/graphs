@@ -7,7 +7,7 @@
 #include <iostream>
 
 void timedTests(std::vector<std::vector<int>> &adj, int V, std::vector<int> &color, int (func)(std::vector<std::vector<int>> &, int, std::vector<int> &), Grafo &grafo, std::string funcName){
-    int runs = 10000;
+    int runs = 1;
     int colors;
 
     auto start = std::chrono::high_resolution_clock::now();
@@ -35,8 +35,8 @@ void executeTimedTests(Grafo &grafo){
     int V = adj.size();
     std::vector<int> color;
 
-    if(V > 10){
-        std::cout << "Pulando Força Bruta pois V > 10." << std::endl;
+    if(V > 31){
+        std::cout << "Pulando Força Bruta pois V > 31." << std::endl;
     }else{
         timedTests(adj, V, color, bruteForceColoring, grafo, "Força Bruta");
     }

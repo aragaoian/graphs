@@ -10,7 +10,8 @@
 using namespace std;
 
 // executar com
-// g++ *.cpp M1A/*.cpp M1B/*.cpp -o app && ./app
+// bash -> g++ *.cpp M1A/*.cpp M2A/*.cpp M2B/*.cpp && ./a.out
+// nushell -> g++ *.cpp M1A/*.cpp M2A/*.cpp M2B/*.cpp; ./a.out
 
 int main(int argc, char *argv[])
 {
@@ -30,7 +31,9 @@ int main(int argc, char *argv[])
         {5, "tests/espacoaereo.txt"},
         {6, "tests/slides.txt"},
         {7, "tests/slides_modificado.txt"},
-        {8, "tests/coloracao.txt"}
+        {8, "tests/Coloracao-r250-66-65.txt"},
+        {9, "tests/AGM-50vertices50_Arestas.txt"},
+        {10, "tests/coloringBruteForce.txt"}
     };
 
     while(true){
@@ -45,6 +48,9 @@ int main(int argc, char *argv[])
         cout << "5 - Espaço Aéreo" << endl;
         cout << "6 - Slides" << endl;
         cout << "7 - Slides Modificado" << endl;
+        cout << "8 - Coloração" << endl;
+        cout << "9 - AGM 50 Vértices" << endl;
+        cout << "10 - Coloração pro Brute Force (V < 30)" << endl;
         cout << "0 - Encerrar" << endl;
 
         if (!(cin >> fileUserOpt)) {
@@ -53,7 +59,7 @@ int main(int argc, char *argv[])
             continue;
         }
 
-        if (fileUserOpt > 8 || fileUserOpt < 0) {
+        if (fileUserOpt > 10 || fileUserOpt < 0) {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
         } else {

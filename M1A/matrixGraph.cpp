@@ -15,10 +15,11 @@ int GrafoMatriz::indexMaximo(){
 bool GrafoMatriz::criarGrafo(string path){
     if(path == "") return false;
     vector<string> info = lerGrafo(path);
+    
     if(info.size() < 4) return false;
-    if((info.size() - 4) % 3 != 0) return false;
 
     int casted_vertices = stoi(info[0]);
+    int casted_arestas = stoi(info[1]);
     int casted_direcionado = stoi(info[2]);
     int casted_ponderado = stoi(info[3]);
 
@@ -26,11 +27,14 @@ bool GrafoMatriz::criarGrafo(string path){
     numArestas = 0;
     direcionado = (casted_direcionado == 1);
     ponderado = (casted_ponderado == 1);
+    
+    int stepSize = ponderado ? 3 : 2;
+    if((info.size() - 4) % stepSize != 0) return false;
 
     grafo.assign(numVertices, vector<float>(numVertices, -1.0f));
     labels.clear();
 
-    for(int i = 4; i < info.size() - 2; i += 3){
+    for(int i = 4; i < info.size() - 2; i += stepSize){
         int vertice_origem = stoi(info[i]);
         int vertice_destino = stoi(info[i + 1]);
         if(vertice_origem < 0 || vertice_origem >= numVertices || vertice_destino < 0 || vertice_destino >= numVertices){
