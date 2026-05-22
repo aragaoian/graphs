@@ -22,42 +22,40 @@ std::vector<ArestaMST> prim(
     std::vector<bool> inQ(V, true);
     std::vector<ArestaMST> S;
 
-    // Remove o vertice inicial A de Q]
-    // O vértice inicial é a raiz da MST, então ele já está 
-    // incluído na solução, e não deve ser considerado para adição de arestas.
+    // Escolhe um vertice inicial A 
+    // (arbitrario se raizIdx for invalido) e remove de Q.
+    if (raizIdx < 0 || raizIdx >= V) raizIdx = 0;
     inQ[raizIdx] = false;
 
-    // 
     while (true)
     {
-        bool isQEmpty = false;
+        bool isQEmpty = true;
         for (int i = 0; i < V; i++) {
             if (inQ[i]) { 
-                isQEmpty = true; 
+                isQEmpty = false; 
                 break; 
             }
         }
-        if (!isQEmpty) break;
+        if (isQEmpty) break;
 
-        // Encontra a menor aresta {u, v} 
-        // onde u não está em Q e v está em Q
+        // Encontra a menor aresta {u, v}
+        // onde um esta em Q e o outro nao esta.
         float bestWeight = INF;
         int bestU = -1;
         int bestV = -1;
 
         for (int i = 0; i < V; i++) {
-            if (inQ[i]) continue;
             int uId = vertices[i];
-
             for (int vId : grafo.retornarVizinhos(uId)) {
                 int v = idToIndex[vId];
-                if (!inQ[v]) continue;
+                if (v < 0) continue;
+                if (inQ[i] == inQ[v]) continue;
 
                 float w = grafo.pesoAresta(uId, vId);
                 if (w < bestWeight) {
                     bestWeight = w;
-                    bestU   = i;
-                    bestV   = v;
+                    bestU = i;
+                    bestV = v;
                 }
             }
         }
@@ -70,8 +68,9 @@ std::vector<ArestaMST> prim(
         a.peso = bestWeight;
         S.push_back(a);
 
-        // Remove de Q o vertice que pertencia a ele
-        inQ[bestV] = false;
+        // Remove de Q o vertice da aresta que ainda estava em Q.
+        if (inQ[bestU]) inQ[bestU] = false;
+        else inQ[bestV] = false;
     }
 
     return S;
@@ -124,7 +123,7 @@ std::vector<ArestaMST> kruskal(
         // Se u e v pertencem a arvores diferentes em F
         if (F.find(u) != F.find(v)) {
             S.push_back(aresta); // Adiciona {u, v} ao conjunto solucao S
-            F.unite(u, v); // Une as arvores de u e v em F
+            F.unite(u, v);
         }
     }
 
