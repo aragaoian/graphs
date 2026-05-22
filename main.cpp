@@ -33,7 +33,21 @@ int main(int argc, char *argv[])
         {7, "tests/slides_modificado.txt"},
         {8, "tests/Coloracao-r250-66-65.txt"},
         {9, "tests/AGM-50vertices50_Arestas.txt"},
-        {10, "tests/coloringBruteForce.txt"}
+        {10, "tests/coloringBruteForce.txt"},
+        {11, "tests/1000vertices25%Arestas.txt"},
+        {12, "tests/500vertices100%Arestas.txt"},
+        {13, "tests/500vertices25%Arestas.txt"},
+        {14, "tests/500vertices50%Arestas.txt"},
+        {15, "tests/50vertices100%Arestas.txt"},
+        {16, "tests/50vertices25%Arestas.txt"},
+        {17, "tests/50vertices50%Arestas.txt"},
+        {18, "tests/C4000-260-X.txt"},
+        {19, "tests/k33.txt"},
+        {20, "tests/k5.txt"},
+        {21, "tests/kquase5.txt"},
+        {22, "tests/r1000-234-234.txt"},
+        {23, "tests/r250-66-65.txt"},
+        {24, "tests/test.txt"}
     };
 
     while(true){
@@ -51,6 +65,20 @@ int main(int argc, char *argv[])
         cout << "8 - Coloração" << endl;
         cout << "9 - AGM 50 Vértices" << endl;
         cout << "10 - Coloração pro Brute Force (V < 30)" << endl;
+        cout << "11 - 1000 vertices 25% Arestas" << endl;
+        cout << "12 - 500 vertices 100% Arestas" << endl;
+        cout << "13 - 500 vertices 25% Arestas" << endl;
+        cout << "14 - 500 vertices 50% Arestas" << endl;
+        cout << "15 - 50 vertices 100% Arestas" << endl;
+        cout << "16 - 50 vertices 25% Arestas" << endl;
+        cout << "17 - 50 vertices 50% Arestas" << endl;
+        cout << "18 - C4000-260-X" << endl;
+        cout << "19 - K3,3" << endl;
+        cout << "20 - K5" << endl;
+        cout << "21 - K quase 5" << endl;
+        cout << "22 - r1000-234-234" << endl;
+        cout << "23 - r250-66-65" << endl;
+        cout << "24 - test.txt" << endl;
         cout << "0 - Encerrar" << endl;
 
         if (!(cin >> fileUserOpt)) {
@@ -59,7 +87,7 @@ int main(int argc, char *argv[])
             continue;
         }
 
-        if (fileUserOpt > 10 || fileUserOpt < 0) {
+        if (fileUserOpt > 24 || fileUserOpt < 0) {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
         } else {
