@@ -10,12 +10,12 @@
 using namespace std;
 
 // executar com
-// bash -> g++ *.cpp M1A/*.cpp M2A/*.cpp M2B/*.cpp && ./a.out
-// nushell -> g++ *.cpp M1A/*.cpp M2A/*.cpp M2B/*.cpp; ./a.out
+// bash -> g++ *.cpp M1A/*.cpp M2A/*.cpp M2B/*.cpp M3/*.cpp && ./a.out
+// nushell -> g++ *.cpp M1A/*.cpp M2A/*.cpp M2B/*.cpp M3/*.cpp; ./a.out
 
 int main(int argc, char *argv[])
 {
-    system("clear");
+    clearScreen();
 
     cout << "Grafos" << endl;
     cout << "Professor: Rodrigo Lyra" << endl;
@@ -47,11 +47,12 @@ int main(int argc, char *argv[])
         {21, "tests/kquase5.txt"},
         {22, "tests/r1000-234-234.txt"},
         {23, "tests/r250-66-65.txt"},
-        {24, "tests/test.txt"}
+        {24, "tests/test.txt"},
+        {25, "tests/fluxoMaximo.txt"}
     };
 
     while(true){
-        system("clear");
+        clearScreen();
         int fileUserOpt;
 
         cout << "Tipo do Grafo" << endl;
@@ -79,6 +80,7 @@ int main(int argc, char *argv[])
         cout << "22 - r1000-234-234" << endl;
         cout << "23 - r250-66-65" << endl;
         cout << "24 - test.txt" << endl;
+        cout << "25 - Fluxo Maximo" << endl;
         cout << "0 - Encerrar" << endl;
 
         if (!(cin >> fileUserOpt)) {
@@ -87,7 +89,7 @@ int main(int argc, char *argv[])
             continue;
         }
 
-        if (fileUserOpt > 24 || fileUserOpt < 0) {
+        if (fileUserOpt > 25 || fileUserOpt < 0) {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
         } else {
@@ -103,7 +105,7 @@ int main(int argc, char *argv[])
             const string selectedFile = fileIt->second;
 
             while(true){
-                system("clear");
+                clearScreen();
                 int graphTypeUserOpt;
                 
                 cout << "Tipo de Representação do Grafo" << endl;
