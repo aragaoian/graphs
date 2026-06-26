@@ -29,12 +29,20 @@ bool GrafoMatriz::criarGrafo(string path){
     ponderado = (casted_ponderado == 1);
     
     int stepSize = ponderado ? 3 : 2;
-    if((info.size() - 4) % stepSize != 0) return false;
+    int infoSize = static_cast<int>(info.size());
+    int edgeTokenCount = infoSize - 4;
+    if(edgeTokenCount != casted_arestas * stepSize){
+        if(!ponderado && edgeTokenCount == casted_arestas * 3){
+            stepSize = 3;
+        }else{
+            return false;
+        }
+    }
 
     grafo.assign(numVertices, vector<float>(numVertices, -1.0f));
     labels.clear();
 
-    for(int i = 4; i < info.size() - 2; i += stepSize){
+    for(int i = 4; i < infoSize; i += stepSize){
         int vertice_origem = stoi(info[i]);
         int vertice_destino = stoi(info[i + 1]);
         if(vertice_origem < 0 || vertice_origem >= numVertices || vertice_destino < 0 || vertice_destino >= numVertices){

@@ -11,6 +11,8 @@ void printOrder(std::string titulo, std::vector<int> ordem);
 
 void clearInput();
 
+void clearScreen();
+
 void wait_();
 
 #endif

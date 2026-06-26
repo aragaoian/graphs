@@ -2,12 +2,14 @@
 #include <string>
 #include <iostream>
 #include <limits>
+#include <cstdlib>
 #include "menu.h"
 #include "M1A/graphCreator.h"
 #include "M1A/listGraph.h"
 #include "M1A/matrixGraph.h"
 #include "M2A/timedTests.h"
 #include "M2B/timedTests.h"
+#include "M3/maxFlow.h"
 
 void printOrder(std::string titulo, std::vector<int> ordem)
 {
@@ -29,6 +31,15 @@ void clearInput()
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
+void clearScreen()
+{
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+}
+
 void wait_()
 {
     std::cout << "\nPressione ENTER para continuar...";
@@ -40,7 +51,7 @@ void executeOpts(Grafo &grafo)
 {
     while (true)
     {
-        system("clear");
+        clearScreen();
         int opt;
 
         std::cout << "Operacoes do Grafo" << std::endl;
@@ -60,6 +71,7 @@ void executeOpts(Grafo &grafo)
         std::cout << "14 - Dijkstra" << std::endl;
         std::cout << "15 - Coloracao de Grafos" << std::endl;
         std::cout << "16 - Arvore Geradora Minima" << std::endl;
+        std::cout << "17 - Fluxo Maximo" << std::endl;
         std::cout << "0 - Voltar" << std::endl;
 
         if (!(std::cin >> opt))
@@ -68,7 +80,7 @@ void executeOpts(Grafo &grafo)
             continue;
         }
 
-        if (opt < 0 || opt > 16)
+        if (opt < 0 || opt > 17)
         {
             clearInput();
             continue;
@@ -80,7 +92,7 @@ void executeOpts(Grafo &grafo)
             break;
         }
 
-        system("clear");
+        clearScreen();
 
         switch (opt)
         {
@@ -271,6 +283,11 @@ void executeOpts(Grafo &grafo)
         case 16:
         {
             executeMST(grafo);
+            break;
+        }
+        case 17:
+        {
+            executeMaxFlow(grafo);
             break;
         }
         default:
