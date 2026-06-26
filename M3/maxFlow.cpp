@@ -143,8 +143,7 @@ ResultadoFluxoMaximo fordFulkerson(
     return resultado;
 }
 
-ResultadoFluxoMaximo fordFulkerson(Grafo &grafo, int origem, int destino)
-{
+ResultadoFluxoMaximo fordFulkerson(Grafo &grafo, int origem, int destino) {
     vector<int> vertices = grafo.retornarVertices();
     vector<ArestaFluxo> arestas = extrairArestasFluxo(grafo);
     return fordFulkerson(vertices, arestas, origem, destino);
@@ -207,7 +206,7 @@ void executeMaxFlow(Grafo &grafo)
     int origem;
     int destino;
 
-    cout << "\nFluxo Maximo - Ford-Fulkerson e Busca Local" << endl;
+    cout << "\nFluxo Máximo" << endl;
     cout << "Vertice de origem: ";
     if (!(cin >> origem)) {
         cin.clear();
@@ -235,7 +234,6 @@ void executeMaxFlow(Grafo &grafo)
     cout << "Caminhos aumentantes encontrados: " << fluxoOriginal.caminhosAumentantes << endl;
 
     cout << "\n[Busca Local]" << endl;
-    cout << "Fluxo maximo da solucao original: " << buscaLocal.fluxoOriginal << endl;
     cout << "Fluxo maximo da solucao final: " << buscaLocal.fluxoFinal << endl;
     cout << "Passos utilizados: " << buscaLocal.passos << endl;
 }

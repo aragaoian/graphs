@@ -7,6 +7,8 @@
 #include "M1A/matrixGraph.h"
 #include "menu.h"
 
+#define USER_INPUT_MIN 0
+#define USER_INPUT_MAX 26
 using namespace std;
 
 // executar com
@@ -48,7 +50,8 @@ int main(int argc, char *argv[])
         {22, "tests/r1000-234-234.txt"},
         {23, "tests/r250-66-65.txt"},
         {24, "tests/test.txt"},
-        {25, "tests/fluxoMaximo.txt"}
+        {25, "tests/fluxoMaximo.txt"},
+        {26, "tests/fluxoMaximoArestas0.txt"}
     };
 
     while(true){
@@ -81,6 +84,7 @@ int main(int argc, char *argv[])
         cout << "23 - r250-66-65" << endl;
         cout << "24 - test.txt" << endl;
         cout << "25 - Fluxo Maximo" << endl;
+        cout << "26 - Fluxo Maximo - arestas com custo 0" << endl;
         cout << "0 - Encerrar" << endl;
 
         if (!(cin >> fileUserOpt)) {
@@ -89,7 +93,7 @@ int main(int argc, char *argv[])
             continue;
         }
 
-        if (fileUserOpt > 25 || fileUserOpt < 0) {
+        if (fileUserOpt > USER_INPUT_MAX || fileUserOpt < USER_INPUT_MIN) {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
         } else {
